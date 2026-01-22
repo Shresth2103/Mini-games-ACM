@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Lock, Unlock, Sparkles, Trophy } from 'lucide-react';
 import '../main.css'
-const WORDS = ['REACT', 'CODES', 'BUILD', 'SMART', 'GRACE', 'PLANT', 'WORLD', 'BRAIN', 'FINAL', 'TRUST'];
+const WORDS = ['ABORT', 'SPEAR', 'YIELD', 'SPEED', 'ROACH', 'MEDIA', 'RHYME', 'QUAKE', 'GLORY', 'EXERT', 'STIFF', 'CHEER', 'FIERY', 'STOIC', 'WHINE', 'TROOP', 'QUEUE', 'LEVER', 'BRAVE', 'ALERT', 'HOVER', 'PIECE', 'TROUT', 'WHISK', 'VAULT', 'YOUTH', 'ROGUE', 'LOGIC', 'INEPT', 'HEIST'];
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 6;
 
@@ -25,20 +25,24 @@ export default function WordleClone() {
   const [won, setWon] = useState(false);
   const [shake, setShake] = useState(false);
   const [gamesWon, setGamesWon] = useState(0);
+  const [error, setError] = useState('');
+  const [usedWords, setUsedWords] = useState([]);
   const [unlockedItems, setUnlockedItems] = useState([]);
   const [showUnlockAnimation, setShowUnlockAnimation] = useState(null);
   const [showUnlockModal, setShowUnlockModal] = useState(null);
 
   useEffect(() => {
-    const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+    const availableWords = WORDS.filter(word => !usedWords.includes(word));
+    const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
     setTargetWord(randomWord);
+    setUsedWords(prev => [...prev, randomWord]);
   }, []);
 
   console.log(targetWord)
 
   const getLetterStatus = (letter, index, guess) => {
     if (!guess) return 'empty';
-    
+
     if (targetWord[index] === letter) {
       return 'correct';
     } else if (targetWord.includes(letter)) {
@@ -50,7 +54,7 @@ export default function WordleClone() {
 
   const getKeyStatus = (key) => {
     let status = 'unused';
-    
+
     guesses.forEach(guess => {
       guess.split('').forEach((letter, index) => {
         if (letter === key) {
@@ -64,7 +68,7 @@ export default function WordleClone() {
         }
       });
     });
-    
+
     return status;
   };
 
@@ -88,9 +92,11 @@ export default function WordleClone() {
 
     if (key === 'ENTER') {
       if (currentGuess.length === WORD_LENGTH) {
+
+
         const newGuesses = [...guesses, currentGuess];
         setGuesses(newGuesses);
-        
+
         if (currentGuess === targetWord) {
           setWon(true);
           setGameOver(true);
@@ -100,11 +106,15 @@ export default function WordleClone() {
         } else if (newGuesses.length === MAX_ATTEMPTS) {
           setGameOver(true);
         }
-        
+
         setCurrentGuess('');
       } else {
+        setError('Not enough letters');
         setShake(true);
-        setTimeout(() => setShake(false), 500);
+        setTimeout(() => {
+          setError('');
+          setShake(false);
+        }, 2000);
       }
     } else if (key === 'BACK') {
       setCurrentGuess(currentGuess.slice(0, -1));
@@ -116,7 +126,7 @@ export default function WordleClone() {
   useEffect(() => {
     const handleKeyboard = (e) => {
       const key = e.key.toUpperCase();
-      
+
       if (key === 'ENTER') {
         handleKeyPress('ENTER');
       } else if (key === 'BACKSPACE') {
@@ -128,11 +138,23 @@ export default function WordleClone() {
 
     window.addEventListener('keydown', handleKeyboard);
     return () => window.removeEventListener('keydown', handleKeyboard);
-  }, [currentGuess, gameOver]);
+  }, [currentGuess, gameOver, guesses, targetWord, gamesWon, unlockedItems]); // Added missing dependencies
 
   const handlePlayAgain = () => {
-    const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
-    setTargetWord(randomWord);
+    const availableWords = WORDS.filter(word => !usedWords.includes(word));
+
+    // If all words have been used, reset the used words list
+    if (availableWords.length === 0) {
+      setUsedWords([]);
+      const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+      setTargetWord(randomWord);
+      setUsedWords([randomWord]);
+    } else {
+      const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+      setTargetWord(randomWord);
+      setUsedWords(prev => [...prev, randomWord]);
+    }
+
     setGuesses([]);
     setCurrentGuess('');
     setGameOver(false);
@@ -143,13 +165,13 @@ export default function WordleClone() {
   const renderRow = (guess, rowIndex) => {
     const isCurrentRow = rowIndex === guesses.length;
     const letters = guess ? guess.split('') : [];
-    
+
     return (
       <div className={`flex gap-1 ${shake && isCurrentRow ? 'animate-shake' : ''}`}>
         {[...Array(WORD_LENGTH)].map((_, i) => {
           const letter = letters[i] || (isCurrentRow && currentGuess[i]) || '';
           const status = guess ? getLetterStatus(letter, i, guess) : 'empty';
-          
+
           return (
             <div
               key={i}
@@ -177,12 +199,12 @@ export default function WordleClone() {
 
   const isItemUnlocked = (itemId) => unlockedItems.includes(itemId);
   const lockedCount = UNLOCK_ITEMS.filter(item => !isItemUnlocked(item.id)).length;
-  
+
   const getNextUnlockGames = () => {
     const nextItem = UNLOCK_ITEMS.find(item => {
       return !isItemUnlocked(item.id) && item.gamesRequired > gamesWon;
     });
-    
+
     return nextItem ? nextItem.gamesRequired : null;
   };
 
@@ -241,6 +263,12 @@ export default function WordleClone() {
               </div>
             ))}
           </div>
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 bg-gray-800 border-2 border-red-500 text-red-400 px-6 py-3 rounded-lg font-bold animate-fadeIn">
+              {error}
+            </div>
+          )}
 
           {/* Progress Indicator */}
           {!gameOver && nextUnlock && (
@@ -273,7 +301,7 @@ export default function WordleClone() {
                 onClick={handlePlayAgain}
                 className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold transition text-lg"
               >
-                Play Again
+                Next Word
               </button>
             </div>
           )}
@@ -284,7 +312,7 @@ export default function WordleClone() {
               <div key={i} className="flex gap-1 justify-center mb-2">
                 {row.map((key) => {
                   const status = key.length === 1 ? getKeyStatus(key) : 'unused';
-                  
+
                   return (
                     <button
                       key={key}
@@ -293,7 +321,7 @@ export default function WordleClone() {
                         ${key === 'ENTER' || key === 'BACK' ? 'px-4 bg-gray-600' : 'w-10'}
                         ${status === 'correct' ? 'bg-green-600' : ''}
                         ${status === 'present' ? 'bg-yellow-500' : ''}
-                        ${status === 'absent' ? 'bg-gray-700' : ''}
+                        ${status === 'absent' ? 'bg-gray-900' : ''}
                         ${status === 'unused' ? 'bg-gray-600' : ''}
                         hover:opacity-80 active:opacity-60 transition-all`}
                     >
@@ -319,12 +347,12 @@ export default function WordleClone() {
               </div>
             </h2>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto p-6 space-y-3 custom-scrollbar">
             {/* Show unlocked items first (newest at top) */}
             {sortedUnlockedItems.map((item) => {
               const isAnimating = showUnlockAnimation === item.id;
-              
+
               return (
                 <div
                   key={item.id}
@@ -343,11 +371,11 @@ export default function WordleClone() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="text-xs bg-green-600 text-white px-3 py-1 rounded-full inline-block">
                     Unlocked after {item.gamesRequired} {item.gamesRequired === 1 ? 'win' : 'wins'}
                   </div>
-                  
+
                   {isAnimating && (
                     <div className="mt-3 text-sm font-bold text-yellow-400 flex items-center gap-2">
                       <Sparkles size={16} className="animate-spin" />
@@ -357,7 +385,7 @@ export default function WordleClone() {
                 </div>
               );
             })}
-            
+
             {/* Show mystery boxes for locked items */}
             {[...Array(lockedCount)].map((_, index) => (
               <div
@@ -371,7 +399,7 @@ export default function WordleClone() {
                 <p className="text-sm text-gray-600">Win more games to reveal...</p>
               </div>
             ))}
-            
+
             {unlockedItems.length === UNLOCK_ITEMS.length && (
               <div className="text-center py-4 mt-4 border-t-2 border-gray-700">
                 <Sparkles size={48} className="mx-auto mb-3 text-yellow-400" />
