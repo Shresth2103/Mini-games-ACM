@@ -30,7 +30,7 @@ function LandingPage() {
           </p>
           
           <p className="cta-text">
-            You can sign in below:
+           
           </p>
 
           {/* Woody Cartoony Login Form Container */}
@@ -40,7 +40,7 @@ function LandingPage() {
                 <span className="icon">✉️</span>
                 <input 
                   type="email" 
-                  placeholder="you@acmchapter.com" 
+                  placeholder="team@acmschap.com" 
                   required 
                   className="woody-input"
                 />

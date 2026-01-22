@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Theme } from '../types';
+import acmLogo from '../../../assets/acm_logo.png';
 
 interface NavbarProps {
   theme: Theme;
@@ -16,17 +17,13 @@ const Navbar: React.FC<NavbarProps> = ({ theme, onToggleThemeSelector, isTestRun
         className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
         onClick={onReset}
       >
-        <div 
-          className="w-10 h-10 rounded-lg flex items-center justify-center font-bold"
-          style={{ backgroundColor: theme.mainColor, color: theme.bgColor }}
-        >
-          MT
-        </div>
+        
+        <img src={acmLogo} alt="ACM Logo" className="club-logo" />
         <h1 
           className="text-2xl font-bold tracking-tight mono"
           style={{ color: theme.textColor }}
         >
-          MonkeyType
+          ACMTypist
         </h1>
       </div>
 
