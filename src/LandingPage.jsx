@@ -26,12 +26,11 @@ function LandingPage() {
           </h1>
           
           <p className="event-subtitle">
-            This event is confirmed, but we're still finalizing the exact schedule! 
-            The site will be live in 3–4 business days.
+            A Team-Based Technical Challenge of Code & Communication.
           </p>
           
           <p className="cta-text">
-            You can still sign in below:
+            You can sign in below:
           </p>
 
           {/* Woody Cartoony Login Form Container */}
