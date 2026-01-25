@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import WordleClone from "./games/Wordle";
-import Emoji from "./games/Emoji";
+import Emoji from "./games/Emoji/Emoji";
 import MemeDecoder from "./games/MemeDecoder/App";
 import MonkeyType from "./games/MonkeyType/App";
 import Pacman from "./games/Pacman/App";
