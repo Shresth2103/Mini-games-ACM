@@ -1,0 +1,128 @@
+.admin-login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-login-card {
+  background: white;
+  border-radius: 16px;
+  padding: 60px 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-login-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
+.admin-login-card h1 {
+  margin: 0;
+  color: #667eea;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.admin-login-card p {
+  margin: 10px 0 30px;
+  color: #666;
+  font-size: 14px;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-icon {
+  position: absolute;
+  left: 15px;
+  font-size: 20px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 14px 14px 14px 50px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 14px;
+  margin: -10px 0 10px 0;
+  font-weight: 600;
+}
+
+.admin-login-btn {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.admin-login-btn:active {
+  transform: translateY(0);
+}
+
+.admin-login-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .admin-login-card {
+    padding: 40px 20px;
+  }
+
+  .admin-login-card h1 {
+    font-size: 24px;
+  }
+}
