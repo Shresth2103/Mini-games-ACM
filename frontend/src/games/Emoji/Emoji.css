@@ -1,8 +1,11 @@
 /* src/Emoji.css */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
 
-:root {
-  /* --- COLOR PALETTE --- */
+/* SCOPE: Styles are now applied to .emoji-game-wrapper 
+   instead of :root and body to prevent leaking to other games.
+*/
+.emoji-game-wrapper {
+  /* --- COLOR PALETTE (Scoped) --- */
   --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b, #0f172a, #000000);
   --card-bg: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
   --card-border: rgba(255, 255, 255, 0.12);
@@ -13,9 +16,8 @@
   --accent-color: #d946ef;
   --slot-bg: rgba(0, 0, 0, 0.2);
   --slot-border: rgba(255, 255, 255, 0.15);
-}
 
-body {
+  /* --- LAYOUT & TYPOGRAPHY (Formerly in body) --- */
   margin: 0;
   font-family: 'Outfit', sans-serif;
   background: var(--bg-gradient);
@@ -23,11 +25,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100vh; /* Ensures it fills the screen */
+  width: 100%;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-.app-container {
+/* Ensure the app container fits within the wrapper */
+.emoji-game-wrapper .app-container {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -162,8 +167,6 @@ body {
   align-items: center;
   gap: 6px;
   font-size: 0.9rem;
-  
-  /* THIS FIXES THE CLICK ISSUE: */
   position: relative; 
   z-index: 20; 
 }

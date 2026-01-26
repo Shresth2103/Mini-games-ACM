@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Emoji.css'; 
+
 // --- THE BIG POOL OF MOVIES ---
 const MOVIE_POOL = [
   { emojis: "👻🏰", title: "Ghostbusters" },
@@ -140,14 +141,17 @@ export default function MovieEmoji() {
   // --- INTRO SCREEN ---
   if (showIntro) {
     return (
-      <div className="movie-app-container">
-        <div className="intro-card">
-          <div className="intro-content">
-            <h1 className="round-title">ROUND {currentRound}</h1>
-            <p className="round-subtitle">Get Ready for {QUESTIONS_PER_ROUND} Movies!</p>
-            <button className="btn-start" onClick={() => setShowIntro(false)}>
-              Let's Play 
-            </button>
+      /* WRAPPER ADDED HERE */
+      <div className="emoji-game-wrapper">
+        <div className="app-container">
+          <div className="intro-card">
+            <div className="intro-content">
+              <h1 className="round-title">ROUND {currentRound}</h1>
+              <p className="round-subtitle">Get Ready for {QUESTIONS_PER_ROUND} Movies!</p>
+              <button className="btn-start" onClick={() => setShowIntro(false)}>
+                Let's Play 
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -157,12 +161,15 @@ export default function MovieEmoji() {
   // --- GAME OVER ---
   if (gameStatus === 'finished') {
     return (
-      <div className="movie-app-container">
-        <div className="game-card">
-          <h1>Game Complete!</h1>
-          <div className="emoji-stage">🏆</div>
-          <h2>Score: <span className="score-text">{score} / {gameMovies.length}</span></h2>
-          <button className="game-btn btn-submit" onClick={() => window.location.reload()}>Play Again</button>
+      /* WRAPPER ADDED HERE */
+      <div className="emoji-game-wrapper">
+        <div className="app-container">
+          <div className="game-card">
+            <h1>Game Complete!</h1>
+            <div className="emoji-stage">🏆</div>
+            <h2>Score: <span className="score-text">{score} / {gameMovies.length}</span></h2>
+            <button className="game-btn btn-submit" onClick={() => window.location.reload()}>Play Again</button>
+          </div>
         </div>
       </div>
     );
@@ -170,57 +177,60 @@ export default function MovieEmoji() {
 
   // --- MAIN GAME ---
   return (
-    <div className="movie-app-container">
-      <div className="game-card" onClick={() => inputRef.current?.focus()}>
-        
-        <div className="header">
-          <div className="header-top">
-            <span>Round {currentRound} / {TOTAL_ROUNDS}</span>
-            <span>Score: <span className="score-text">{score}</span> / {currentRound * QUESTIONS_PER_ROUND}</span>
+    /* WRAPPER ADDED HERE */
+    <div className="emoji-game-wrapper">
+      <div className="app-container">
+        <div className="game-card" onClick={() => inputRef.current?.focus()}>
+          
+          <div className="header">
+            <div className="header-top">
+              <span>Round {currentRound} / {TOTAL_ROUNDS}</span>
+              <span>Score: <span className="score-text">{score}</span> / {currentRound * QUESTIONS_PER_ROUND}</span>
+            </div>
+
+            <div className="progress-track">
+              <div 
+                className="progress-fill" 
+                style={{ width: `${(questionNumberInRound / QUESTIONS_PER_ROUND) * 100}%` }}
+              ></div>
+            </div>
+
+            <div className="round-counter">
+              Movie #{questionNumberInRound} of {QUESTIONS_PER_ROUND}
+            </div>
           </div>
 
-          <div className="progress-track">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${(questionNumberInRound / QUESTIONS_PER_ROUND) * 100}%` }}
-            ></div>
+          <div className="emoji-stage">
+            {currentMovie.emojis}
           </div>
 
-          <div className="round-counter">
-            Movie #{questionNumberInRound} of {QUESTIONS_PER_ROUND}
-          </div>
-        </div>
+          <div className="slots-area">{renderSlots()}</div>
 
-        <div className="emoji-stage">
-          {currentMovie.emojis}
-        </div>
-
-        <div className="slots-area">{renderSlots()}</div>
-
-        {userInput === "" && gameStatus === 'playing' && (
-          <div className="tap-hint">Tap anywhere to start typing</div>
-        )}
-
-        <input 
-          ref={inputRef} type="text" className="hidden-input"
-          value={userInput} onChange={handleInputChange}
-          onKeyDown={(e) => e.key === 'Enter' && checkAnswer()} autoComplete="off"
-        />
-
-        <div className="feedback-area">
-          {gameStatus === 'correct' && `Correct! It was "${currentMovie.title}"`}
-        </div>
-
-        <div className="button-area">
-          {gameStatus === 'playing' ? (
-            <button className="game-btn btn-submit" onClick={checkAnswer}>Submit</button>
-          ) : (
-            <button className="game-btn btn-next" onClick={nextQuestion}>
-              {isLastQuestion ? "Finish Game " : "Next Movie ➡"}
-            </button>
+          {userInput === "" && gameStatus === 'playing' && (
+            <div className="tap-hint">Tap anywhere to start typing</div>
           )}
-        </div>
 
+          <input 
+            ref={inputRef} type="text" className="hidden-input"
+            value={userInput} onChange={handleInputChange}
+            onKeyDown={(e) => e.key === 'Enter' && checkAnswer()} autoComplete="off"
+          />
+
+          <div className="feedback-area">
+            {gameStatus === 'correct' && `Correct! It was "${currentMovie.title}"`}
+          </div>
+
+          <div className="button-area">
+            {gameStatus === 'playing' ? (
+              <button className="game-btn btn-submit" onClick={checkAnswer}>Submit</button>
+            ) : (
+              <button className="game-btn btn-next" onClick={nextQuestion}>
+                {isLastQuestion ? "Finish Game " : "Next Movie ➡"}
+              </button>
+            )}
+          </div>
+
+        </div>
       </div>
     </div>
   );

@@ -107,7 +107,7 @@ body {
 .event-subtitle {
   font-size: 1.1rem;
   line-height: 1.5;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   max-width: 600px;
   margin-left: auto;
@@ -124,16 +124,18 @@ body {
 /* --- WOODY FORM STYLE (UPDATED) --- */
 .login-form {
   display: flex;
+  /* margin-top: 10px; */
   justify-content: center;
-  transform: rotate(-3deg); 
+  transform: rotate(-4deg); 
 }
 
 /* Vertical container */
 .woody-form-container {
   display: flex;
+  /* margin-top: 10px; */
   flex-direction: column; /* Stacks items vertically */
   align-items: stretch;
-  gap: 12px; /* Space between inputs */
+  gap: 10px; /* Space between inputs */
   
   background: linear-gradient(to bottom, #d48b5e, #a65e33);
   padding: 15px;
