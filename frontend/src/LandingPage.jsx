@@ -5,13 +5,15 @@ import grassImg from './assets/grass.png';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from './firebase'; 
 import { useNavigate } from 'react-router-dom'; 
+import { useGameCompletion } from './GameContext';
 
 function LandingPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { setTeamName } = useGameCompletion();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,6 +22,11 @@ function LandingPage() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("Logged in:", userCredential.user);
+      
+      // Extract team name from email (everything before @)
+      const nameFromEmail = email.split('@')[0];
+      setTeamName(nameFromEmail);
+      
       navigate('/monkeytype'); 
     } catch (error) {
       console.error(error);
@@ -87,6 +94,24 @@ function LandingPage() {
                 </p>
               )}
               
+              {/* Admin Link */}
+              <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                <button 
+                  type="button"
+                  onClick={() => navigate('/admin')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#667eea',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    textDecoration: 'underline',
+                    padding: 0
+                  }}
+                >
+                  Admin Portal
+                </button>
+              </div>
             </div>
           </form>
         </main>

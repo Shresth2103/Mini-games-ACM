@@ -1,23 +1,22 @@
 import { Routes, Route } from "react-router-dom";
 
-import WordleClone from "./games/Wordle";
-import Emoji from "./games/Emoji/Emoji";
-import MemeDecoder from "./games/MemeDecoder/App";
-import MonkeyType from "./games/MonkeyType/App";
-import Pacman from "./games/Pacman/App";
 import LandingPage from "./LandingPage";
+import GameSequence from "./GameSequence";
+import AdminLogin from "./AdminLogin";
+import AdminDashboard from "./AdminDashboard";
+import { GameProvider } from "./GameContext";
 
 function App() {
   return (
-    <Routes>
-      {/* <Route path="/" element={<Home />} /> */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/wordle" element={<WordleClone />} />
-      <Route path="/Emoji" element={<Emoji />} />
-      <Route path="/MemeDecoder" element={<MemeDecoder />} />
-      <Route path="/MonkeyType" element={<MonkeyType />} />
-      <Route path="/pacman" element={<Pacman />} />
-    </Routes>
+    <GameProvider>
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/monkeytype" element={<GameSequence />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      </Routes>
+    </GameProvider>
   );
 }
 

@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StartScreen from './components/StartScreen';
 import GameScreen from './screens/GameScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import { GameStatus } from './types';
 
-const App: React.FC = () => {
+interface AppProps {
+  initialTeamName?: string;
+}
+
+const App: React.FC<AppProps> = ({ initialTeamName = '' }) => {
   const [status, setStatus] = useState<GameStatus>('START');
   const [teamName, setTeamName] = useState('');
   const [finalScore, setFinalScore] = useState(0);
+
+  // Auto-start if team name is provided from context
+  useEffect(() => {
+    if (initialTeamName) {
+      setTeamName(initialTeamName);
+      setStatus('PLAYING');
+    }
+  }, [initialTeamName]);
 
   const handleStartGame = (name: string) => {
     setTeamName(name);
