@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
 import acmLogo from './assets/acm_logo.png';
 
-const ADMIN_PASSWORD = 'DevRelay2025!'; // Change this to your desired password
+const ADMIN_PASSWORD = '123'; // Change this to your desired password
 
 function AdminLogin() {
   const [password, setPassword] = useState('');
@@ -53,7 +53,7 @@ function AdminLogin() {
         </form>
 
         <div className="admin-login-footer">
-          <a href="/" style={{ color: '#667eea', textDecoration: 'none' }}>
+          <a href="/" className="back-link">
             ← Back to Home
           </a>
         </div>

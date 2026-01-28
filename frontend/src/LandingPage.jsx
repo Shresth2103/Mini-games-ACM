@@ -94,24 +94,6 @@ function LandingPage() {
                 </p>
               )}
               
-              {/* Admin Link */}
-              <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <button 
-                  type="button"
-                  onClick={() => navigate('/admin')}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#667eea',
-                    cursor: 'pointer',
-                    fontSize: '12px',
-                    textDecoration: 'underline',
-                    padding: 0
-                  }}
-                >
-                  Admin Portal
-                </button>
-              </div>
             </div>
           </form>
         </main>
